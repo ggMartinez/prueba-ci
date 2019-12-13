@@ -25,4 +25,14 @@ Run Test:
   script:
     - ./vendor/bin/phpunit Test/RandomTest.php
 
+Deploy:
+  tags: 
+    - deploy
+  stage: deploy 
+  script:
+    - docker build . -t local/phpapp
+    - docker rm -f phpapp 
+    - docker run -p 8080:80 --name phpapp --rm local/phpapp
+
+
 
