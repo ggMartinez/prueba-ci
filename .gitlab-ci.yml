@@ -1,8 +1,8 @@
 
 stages:
-  - validate
-  - test
-  - deploy
+  - Validate
+  - Test
+  - Deploy
 
 before_script:
   - composer install
@@ -11,7 +11,7 @@ before_script:
 Validate Classes:
   tags:
     - integrate
-  stage: validate
+  stage: Validate
 
   script:
     - php -l Classes/RandomNumber.php
@@ -21,14 +21,14 @@ Validate Classes:
 Run Test:
   tags:
     - integrate
-  stage: test 
+  stage: Test 
   script:
     - ./vendor/bin/phpunit Test/RandomTest.php
 
 Deploy:
   tags: 
     - deploy
-  stage: deploy 
+  stage: Deploy 
   script:
     - docker build . -t local/phpapp
     - docker rm -f phpapp 
