@@ -1,5 +1,4 @@
-# Stages definition
-# -------------------------
+
 stages:
   - validate
   - test
@@ -8,8 +7,7 @@ stages:
 before_script:
   - composer install
 
-# Devel environment tasks
-# -------------------------
+
 Validate Classes:
   tags:
     - integrate
@@ -18,83 +16,13 @@ Validate Classes:
   script:
     - php -l Classes/RandomNumber.php
 
-  except:
-    - stable
-    - master
+
 
 Run Test:
   tags:
     - integrate
   stage: test 
-    - 
-
-
-
-
-# Staging environment tasks
-# -------------------------
-
-Build image for Stage:
-  tags:
-    - build-server
-  when: manual
-  stage: staging
-  environment:
-    name: staging
-    url: $URL_STABLE
   script:
-    - cd $DEPLOY_SCRIPTS_PATH
-    - ./vendor/bin/envoy run build --environment=stage --branch=stable --release_name=$CI_COMMIT_SHA --app=$APP_NAME
-
-  only:
-    - stable
+    - ./vendor/bin/phpunit Test/RandomTest.php
 
 
-Push image for Stage:
-  tags:
-    - build-server
-  when: manual
-  stage: staging
-  environment:
-    name: staging
-    url: $URL_STABLE
-  script:
-    - cd $DEPLOY_SCRIPTS_PATH
-    - ./vendor/bin/envoy run pull --environment=stage --app=$APP_NAME
-  only:
-    - stable
-
-
-
-
-# Production environment tasks
-# -------------------------
-Build image for Production:
-  tags:
-    - build-server
-  when: manual
-  stage: production
-  environment:
-    name: production
-    url: $URL_PRODUCTION
-  script:
-    - cd $DEPLOY_SCRIPTS_PATH
-    - ./vendor/bin/envoy run build --environment=production --branch=master --release_name=$CI_COMMIT_SHA --app=$APP_NAME
-
-  only:
-    - master
-
-
-Push image for Production:
-  tags:
-    - build-server
-  when: manual
-  stage: production
-  environment:
-    name: production
-    url: $URL_PRODUCTION
-  script:
-    - cd $DEPLOY_SCRIPTS_PATH
-    - ./vendor/bin/envoy run pull --environment=production --app=$APP_NAME
-  only:
-    - master
