@@ -8,7 +8,7 @@ final class RandomsTests extends TestCase{
         $a = new RandomNumber;
         $b = new RandomNumber;
 
-        $this->assertNotEquals($a,$b);
+        $this->assertEquals($a,$b);
     }
     
 }
