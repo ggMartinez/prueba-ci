@@ -14,7 +14,7 @@ Validate Classes:
   stage: Validate
 
   script:
-    - php -l Classes/RandomNumber.php
+    - find . -name *.php exec php -l {} \;
 
 
 Run Test:
