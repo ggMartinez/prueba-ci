@@ -17,7 +17,6 @@ Validate Classes:
     - php -l Classes/RandomNumber.php
 
 
-
 Run Test:
   tags:
     - integrate
